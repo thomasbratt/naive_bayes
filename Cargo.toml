@@ -1,0 +1,15 @@
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package]
+name = "naive_bayes"
+version = "0.1.0"
+edition = "2018"
+authors = ["Thomas Bratt <thomas.bratt@gmail.com>"]
+
+[dependencies]
+num-traits = "0.2.*"
+linear_algebra = { path = "../linear_algebra" }
+
+[dev-dependencies]
+assert_approx_eq = "1.1.0"
+
