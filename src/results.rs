@@ -1,23 +1,21 @@
-use num_traits::Float;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::Hash;
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct ClassificationResults<H, P>
+pub struct Results<H>
 where
     H: Copy + Eq + Hash,
-    P: Float,
 {
-    values: HashMap<H, P>,
+    values: HashMap<H, f64>,
 }
 
-impl<H: Copy + Eq + Hash, P: Float> ClassificationResults<H, P> {
-    pub fn new(values: HashMap<H, P>) -> Self {
+impl<H: Copy + Eq + Hash> Results<H> {
+    pub fn new(values: HashMap<H, f64>) -> Self {
         Self { values }
     }
 
-    pub fn best(&self) -> Option<(H, P)> {
+    pub fn best(&self) -> Option<(H, f64)> {
         self.values
             .iter()
             .max_by(|&lhs, &rhs| {
@@ -31,10 +29,10 @@ impl<H: Copy + Eq + Hash, P: Float> ClassificationResults<H, P> {
     }
 }
 
-impl<H: Copy + Eq + Hash, P: Float> IntoIterator for ClassificationResults<H, P> {
-    type Item = (H, P);
+impl<H: Copy + Eq + Hash> IntoIterator for Results<H> {
+    type Item = (H, f64);
 
-    type IntoIter = std::collections::hash_map::IntoIter<H, P>;
+    type IntoIter = std::collections::hash_map::IntoIter<H, f64>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.values.into_iter()

@@ -8,7 +8,7 @@ authors = ["Thomas Bratt <thomas.bratt@gmail.com>"]
 
 [dependencies]
 num-traits = "0.2.*"
-linear_algebra = { path = "../linear_algebra" }
+#linear_algebra = { path = "../linear_algebra" }
 
 [dev-dependencies]
 assert_approx_eq = "1.1.0"
