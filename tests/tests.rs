@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use crate::classifier::Classifier;
-    use crate::learner::Learner;
+    use naive_bayes::classifier::Classifier;
+    use naive_bayes::learner::Learner;
 
     #[test]
     fn adhoc() {
