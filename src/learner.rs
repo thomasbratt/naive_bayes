@@ -15,25 +15,12 @@ where
 }
 
 impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> Learner<D, H> {
-    // TODO: map.entry(key).or_insert(default)
     pub fn update_online(&mut self, datum: D, hypothesis: H) -> &mut Self {
-        match self.count_hypothesis.get_mut(&hypothesis) {
-            Some(x) => {
-                *x += 1;
-            }
-            None => {
-                self.count_hypothesis.insert(hypothesis, 0);
-            }
-        }
-        let key = (datum, hypothesis);
-        match self.count_likelihood.get_mut(&key) {
-            Some(x) => {
-                *x += 1;
-            }
-            None => {
-                self.count_likelihood.insert(key, 0);
-            }
-        }
+        *self.count_hypothesis.entry(hypothesis).or_insert(0) += 1;
+        *self
+            .count_likelihood
+            .entry((datum, hypothesis))
+            .or_insert(0) += 1;
         self.count_total += 1;
         self
     }
@@ -46,33 +33,31 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> Learner<D, H> {
     }
 
     pub fn make_classifier(&mut self) -> Classifier<D, H> {
-        let mut probabilities: HashMap<D, HashMap<H, f64>> = HashMap::default();
+        let priors: HashMap<H, f64> = self
+            .count_hypothesis
+            .iter()
+            .map(|(h, c)| (*h, *c as f64 / self.count_total as f64))
+            .collect();
 
-        // TODO: try .map(/*to tuple*/).collect()
-        let mut priors: HashMap<H, f64> = HashMap::default();
-        for (h, c) in &self.count_hypothesis {
-            priors.insert(*h, *c as f64 / self.count_total as f64);
-        }
-
-        // TODO: try .map(/*to tuple*/).collect()
-
+        let mut conditionals: HashMap<D, HashMap<H, f64>> = HashMap::default();
         for ((datum, hypothesis), count) in &self.count_likelihood {
-            let prior_h = *priors.get(&hypothesis).unwrap_or(&0.0);
-
+            let prior_h = *priors.get(hypothesis).unwrap();
             let p: f64 = prior_h * (*count as f64 / self.count_total as f64);
-
-            // : HashMap<H, P>
-            let hp = &mut *probabilities.entry(*datum).or_insert(HashMap::default());
-            hp.insert(*hypothesis, p);
+            conditionals
+                .entry(*datum)
+                .or_insert_with(HashMap::default)
+                .insert(*hypothesis, p);
         }
 
-        let mut results: HashMap<D, Vec<(H, f64)>> = HashMap::default();
-        for (datum, hp) in probabilities {
-            let v = hp.iter().map(|x| (*x.0, *x.1)).collect();
-            results.insert(datum, v);
-        }
+        let probabilities: HashMap<D, Vec<(H, f64)>> = conditionals
+            .iter()
+            .map(|(datum, hp)| {
+                let v = hp.iter().map(|x| (*x.0, *x.1)).collect();
+                (*datum, v)
+            })
+            .collect();
 
-        let h: Vec<H> = self.count_hypothesis.keys().map(|x| x.clone()).collect();
-        Classifier::new(h, results)
+        let hypotheses: Vec<H> = self.count_hypothesis.keys().copied().collect();
+        Classifier::new(hypotheses, probabilities)
     }
 }

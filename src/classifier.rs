@@ -27,13 +27,10 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> Classifier<D, H> {
 
         // TODO: log sum exp
         for d in data {
-            match self.probabilities.get(d) {
-                Some(hp) => {
-                    for (h, p) in hp {
-                        *results.entry(*h).or_insert(1.0) *= p;
-                    }
+            if let Some(hp) = self.probabilities.get(d) {
+                for (h, p) in hp {
+                    *results.entry(*h).or_insert(1.0) *= p;
                 }
-                None => {}
             }
         }
 
