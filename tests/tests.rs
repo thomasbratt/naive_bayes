@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use assert_approx_eq::assert_approx_eq;
     use naive_bayes::classifier::Classifier;
     use naive_bayes::learner::Learner;
 
@@ -28,6 +29,7 @@ mod tests {
         let actual = classifier.classify(['a'].iter());
 
         assert_eq!(actual.best().unwrap().0, "01");
+        assert_approx_eq!(actual.best().unwrap().1, 0.75, 0.1);
     }
 
     #[test]
@@ -37,6 +39,7 @@ mod tests {
         let actual = classifier.classify(['b'].iter());
 
         assert_eq!(actual.best().unwrap().0, "02");
+        assert_approx_eq!(actual.best().unwrap().1, 0.5, 0.1);
     }
 
     #[test]
@@ -46,6 +49,7 @@ mod tests {
         let actual = classifier.classify(['c'].iter());
 
         assert_eq!(actual.best().unwrap().0, "03");
+        assert_approx_eq!(actual.best().unwrap().1, 0.6, 0.1);
     }
 
     fn learn() -> Classifier<char, &'static str> {

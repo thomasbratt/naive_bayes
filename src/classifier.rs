@@ -23,21 +23,29 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> Classifier<D, H> {
     }
 
     pub fn classify(&self, data: Iter<D>) -> Results<H> {
-        let mut results: HashMap<H, f64> = HashMap::default();
+        let mut results_raw: HashMap<H, f64> = HashMap::default();
 
         // TODO: log sum exp
+        // probability of h is product of: P(d|h) * P(h)
         for d in data {
             if let Some(hp) = self.probabilities.get(d) {
                 for (h, p) in hp {
-                    *results.entry(*h).or_insert(1.0) *= p;
+                    // unstable: results.try_insert(h, 0.0);
+                    *results_raw.entry(*h).or_insert(1.0) *= p;
                 }
             }
         }
 
-        // TODO: normalise relative probabilities
+        // Normalise relative probabilities
+        let mut results: HashMap<H, f64> = if results_raw.is_empty() {
+            HashMap::default()
+        } else {
+            let sum: f64 = results_raw.iter().map(|(_, p)| *p).sum();
+            results_raw.iter().map(|(h, p)| (*h, p / sum)).collect()
+        };
 
-        // unstable:
-        // results.try_insert(h, 0.0);
+        // Add missing hypotheses
+        // unstable: results.try_insert(h, 0.0);
         for h in &self.hypotheses {
             results.entry(*h).or_insert(0.0);
         }
