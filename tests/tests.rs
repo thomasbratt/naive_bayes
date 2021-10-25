@@ -52,6 +52,16 @@ mod tests {
         assert_approx_eq!(actual.best().unwrap().1, 0.6, 0.1);
     }
 
+    #[test]
+    fn handles_empty_training_set() {
+        let classifier: Classifier<char, &str> = Learner::default().make_classifier();
+
+        let actual = classifier.classify(['a'].iter());
+
+        assert_eq!(actual.best(), Option::None);
+        assert_eq!(actual.into_iter().count(), 0);
+    }
+
     fn learn() -> Classifier<char, &'static str> {
         Learner::default()
             .update_batch(['a', 'b', 'c', 'a', 'a'].iter(), "01")
