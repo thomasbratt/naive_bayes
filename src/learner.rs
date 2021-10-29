@@ -29,7 +29,6 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
 }
 
 impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> Learner<D, H, DS> {
-
     pub fn update(&mut self, data: &[D; DS], hypothesis: H) -> &mut Self {
         for (i, d) in data.iter().enumerate() {
             *self.count_likelihoods[i]

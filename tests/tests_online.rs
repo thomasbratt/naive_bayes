@@ -6,7 +6,7 @@ mod tests {
 
     #[test]
     fn classifies_test_case_01() {
-        let classifier = learn_single();
+        let classifier = learn();
 
         let actual = classifier.classify(&['a']);
 
@@ -16,7 +16,7 @@ mod tests {
 
     #[test]
     fn classifies_test_case_02() {
-        let classifier = learn_single();
+        let classifier = learn();
 
         let actual = classifier.classify(&['b']);
 
@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn classifies_test_case_03() {
-        let classifier = learn_single();
+        let classifier = learn();
 
         let actual = classifier.classify(&['c']);
 
@@ -34,7 +34,7 @@ mod tests {
         assert_approx_eq!(actual.best().unwrap().1, 0.6, 0.1);
     }
 
-    fn learn_single() -> Classifier<char, &'static str, 1> {
+    fn learn() -> Classifier<char, &'static str, 1> {
         Learner::default()
             .update(&['a'], "01")
             .update(&['b'], "01")

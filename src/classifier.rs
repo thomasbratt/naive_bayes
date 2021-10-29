@@ -1,5 +1,5 @@
 use crate::results::Results;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::hash::Hash;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -14,6 +14,7 @@ where
 }
 
 const LOG2_MANTISSA_F64: f64 = -53.0;
+const LOG2_PLACEHOLDER_PROBABILTY: f64 = -53.0;
 
 impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H, DS> {
     pub fn new(
@@ -30,16 +31,25 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
         let mut accumulated_log_likelihoods: HashMap<H, f64> = HashMap::default();
 
         // Accumulate product of likelihoods, grouped by hypothesis.
+        let placeholder = Vec::new();
+        let all: HashSet<&H> = self.log_priors.keys().collect();
         for (i, d) in data.iter().enumerate() {
-            if let Some(k) = self.log_likelihoods[i].get(d) {
-                for (h, p) in k {
-                    *accumulated_log_likelihoods.entry(*h).or_insert(0.0) += p;
-                }
+            let mut missing = all.clone();
+            let found = self.log_likelihoods[i].get(d).unwrap_or(&placeholder);
+            for (h, p) in found {
+                *accumulated_log_likelihoods.entry(*h).or_insert(0.0) += p;
+                missing.remove(h);
+            }
+            for h in missing {
+                *accumulated_log_likelihoods.entry(*h).or_insert(0.0) +=
+                    LOG2_PLACEHOLDER_PROBABILTY;
             }
         }
 
-        // Work out resolution threshold for the number of hypotheses.
+        // Resolution threshold for the number of hypotheses.
         let threshold = LOG2_MANTISSA_F64 - (self.log_priors.len() as f64).log2();
+
+        // Max log probability.
         let max = accumulated_log_likelihoods
             .iter()
             .map(|(_, x)| *x)
@@ -48,6 +58,7 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
             .unwrap_or(0.0);
 
         // Multiply each accumulated likelihood of h by the prior of h.
+
         let relative_probabilities: HashMap<H, f64> = if accumulated_log_likelihoods.is_empty() {
             HashMap::default()
         } else {

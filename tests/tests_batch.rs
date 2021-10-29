@@ -1,12 +1,12 @@
 #[cfg(test)]
 mod tests {
     use assert_approx_eq::assert_approx_eq;
-    use crate::classifier::Classifier;
-    use crate::learner::Learner;
+    use naive_bayes::classifier::Classifier;
+    use naive_bayes::learner::Learner;
 
     #[test]
     fn classifies_test_case_01() {
-        let classifier = learn_batch();
+        let classifier = learn();
 
         let actual = classifier.classify(&['a']);
 
@@ -16,7 +16,7 @@ mod tests {
 
     #[test]
     fn classifies_test_case_02() {
-        let classifier = learn_batch();
+        let classifier = learn();
 
         let actual = classifier.classify(&['b']);
 
@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn classifies_test_case_03() {
-        let classifier = learn_batch();
+        let classifier = learn();
 
         let actual = classifier.classify(&['c']);
 
@@ -34,7 +34,7 @@ mod tests {
         assert_approx_eq!(actual.best().unwrap().1, 0.6, 0.1);
     }
 
-    fn learn_batch() -> Classifier<char, &'static str, 1> {
+    fn learn() -> Classifier<char, &'static str, 1> {
         Learner::default()
             .update_batch(&mut [['a'], ['b'], ['c'], ['a'], ['a']].iter(), "01")
             .update_batch(&mut [['b'], ['b'], ['c'], ['b'], ['a']].iter(), "02")

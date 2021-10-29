@@ -21,11 +21,12 @@ Usage
 TODO
 -------
 
-* test with input arrays with size greater than 1
-* test with larger data volumnes
+* test with unbalanced training data
+* test with larger data volumes
 * better handling for missing entries
 * write up documentation, both google docs and README.md
 
+* better value for LOG2_PLACEHOLDER_PROBABILTY
 * refactor into sparse matrix format
 * refactor into normal versus log probability operations
 * support stream data (where size of input is unknown)
