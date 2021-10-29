@@ -6,10 +6,10 @@ Features
 -------
 
 * Developed as an investigation into capabilities and implementation characteristics
-* Not recommended for production
+* Not recommended for production use
 * Written in the Rust programming language
-* Supports sparse data that do not fit well into a vector (ie words)
-* Has some mitigation for very small probabilities (floating point values)
+* Supports sparse data that do not fit well into a vector (ie words in a document)
+* Has mitigation for very small probabilities (floating point values)
 
 Usage
 -------
@@ -21,12 +21,11 @@ Usage
 TODO
 -------
 
-* test with unbalanced training data
 * test with larger data volumes
-* better handling for missing entries
-* write up documentation, both google docs and README.md
+* document core algorithm, in google docs
+* transfer google docs writeup to README.md
 
-* better value for LOG2_PLACEHOLDER_PROBABILTY
+* determine better value for LOG2_PLACEHOLDER_PROBABILITY
 * refactor into sparse matrix format
 * refactor into normal versus log probability operations
 * support stream data (where size of input is unknown)

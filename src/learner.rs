@@ -12,7 +12,7 @@ where
     H: Copy + Debug + Eq + Hash,
 {
     count_hypotheses: HashMap<H, f64>,
-    count_likelihoods: [HashMap<(D, H), f64>; DS],
+    count_joint: [HashMap<(D, H), f64>; DS],
     count_total: f64,
 }
 
@@ -22,7 +22,7 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
     fn default() -> Self {
         Learner {
             count_hypotheses: HashMap::default(),
-            count_likelihoods: [(); DS].map(|_| HashMap::<(D, H), f64>::default()),
+            count_joint: [(); DS].map(|_| HashMap::<(D, H), f64>::default()),
             count_total: 0.0,
         }
     }
@@ -31,9 +31,7 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
 impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> Learner<D, H, DS> {
     pub fn update(&mut self, data: &[D; DS], hypothesis: H) -> &mut Self {
         for (i, d) in data.iter().enumerate() {
-            *self.count_likelihoods[i]
-                .entry((*d, hypothesis))
-                .or_insert(0.0) += 1.0;
+            *self.count_joint[i].entry((*d, hypothesis)).or_insert(0.0) += 1.0;
         }
         *self.count_hypotheses.entry(hypothesis).or_insert(0.0) += 1.0;
         self.count_total += 1.0;
@@ -48,9 +46,7 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
         let mut count = 0.0;
         for item in data {
             for (i, d) in item.iter().enumerate() {
-                *self.count_likelihoods[i]
-                    .entry((*d, hypothesis))
-                    .or_insert(0.0) += 1.0;
+                *self.count_joint[i].entry((*d, hypothesis)).or_insert(0.0) += 1.0;
             }
             // Retrieving the length can be expensive, for example when the data is being streamed.
             // This counter is cheap to maintain and can be processed without additional latency.
@@ -70,18 +66,18 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
             .collect();
 
         let log_likelihoods: [HashMap<D, Vec<(H, f64)>>; DS] = self
-            .count_likelihoods
+            .count_joint
             .iter()
             .map(|dhc| {
                 dhc.iter()
-                    // from  {(d,h): c}, total
-                    // to    {d:{h:log2(c/total)}}
+                    // from  {(d,h): c}, |h|
+                    // to    {d:{h:log2(c/|h|)}}
                     .fold(
                         HashMap::default(),
                         |mut acc: HashMap<D, HashMap<H, f64>>, ((d, h), c)| {
                             acc.entry(*d)
                                 .or_insert_with(HashMap::default)
-                                .insert(*h, (*c / self.count_total).log2());
+                                .insert(*h, (*c / self.count_hypotheses.get(h).unwrap()).log2());
                             acc
                         },
                     )

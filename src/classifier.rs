@@ -14,7 +14,7 @@ where
 }
 
 const LOG2_MANTISSA_F64: f64 = -53.0;
-const LOG2_PLACEHOLDER_PROBABILTY: f64 = -53.0;
+const LOG2_PLACEHOLDER_PROBABILITY: f64 = -53.0;
 
 impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H, DS> {
     pub fn new(
@@ -42,7 +42,7 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
             }
             for h in missing {
                 *accumulated_log_likelihoods.entry(*h).or_insert(0.0) +=
-                    LOG2_PLACEHOLDER_PROBABILTY;
+                    LOG2_PLACEHOLDER_PROBABILITY;
             }
         }
 
