@@ -1,13 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use naive_bayes::classifier::Classifier;
-    use naive_bayes::learner::Learner;
-
-    // TODO: write up documentation, both google docs and README.md
-    // TODO: test with more than a single test datum
-    // TODO: test with large data
-    // TODO: refactor into sparse matrix format
-    // TODO: refactor into normal versus log probability operations
+    use crate::classifier::Classifier;
+    use crate::learner::Learner;
 
     #[test]
     fn adhoc() {

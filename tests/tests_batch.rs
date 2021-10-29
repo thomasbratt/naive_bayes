@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
     use assert_approx_eq::assert_approx_eq;
-    use naive_bayes::classifier::Classifier;
-    use naive_bayes::learner::Learner;
+    use crate::classifier::Classifier;
+    use crate::learner::Learner;
 
     #[test]
     fn classifies_test_case_01() {
