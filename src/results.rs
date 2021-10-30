@@ -11,10 +11,23 @@ where
 }
 
 impl<H: Copy + Eq + Hash> Results<H> {
+    /// Create a struct to hold classification results.
+    ///
+    /// # Arguments
+    ///
+    /// * `values` - posterior probability of each hypothesis
+    ///
     pub fn new(values: HashMap<H, f64>) -> Self {
         Self { values }
     }
 
+    /// Return the hypothesis with the highest posterior probability.
+    ///
+    /// # Return Value
+    ///
+    /// * `Option::Empty() - no results.
+    /// * `Option::Some((H, f64))` - the hypothesis and its posterior probability.
+    ///
     pub fn best(&self) -> Option<(H, f64)> {
         self.values
             .iter()

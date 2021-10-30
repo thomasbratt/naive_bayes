@@ -17,6 +17,13 @@ const LOG2_MANTISSA_F64: f64 = -53.0;
 const LOG2_PLACEHOLDER_PROBABILITY: f64 = -53.0;
 
 impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H, DS> {
+    /// Create a new Classifier.
+    ///
+    /// # Arguments
+    ///
+    /// * `log_priors` - probability of hypothesis
+    /// * `log_likelihoods` - probability of data given hypothesis, for each input array position
+    ///
     pub fn new(
         log_priors: HashMap<H, f64>,
         log_likelihoods: [HashMap<D, Vec<(H, f64)>>; DS],
@@ -27,6 +34,16 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
         }
     }
 
+    /// Classify an unknown input.
+    ///
+    /// # Arguments
+    ///
+    /// * `data` - array of input data to classify
+    ///
+    /// # Return Value
+    ///
+    /// * `Results` type
+    ///
     pub fn classify(&self, data: &[D; DS]) -> Results<H> {
         let mut accumulated_log_likelihoods: HashMap<H, f64> = HashMap::default();
 
