@@ -17,7 +17,7 @@ impl<H: Copy + Eq + Hash> Results<H> {
     ///
     /// * `values` - posterior probability of each hypothesis
     ///
-    pub fn new(values: HashMap<H, f64>) -> Self {
+    pub(crate) fn new(values: HashMap<H, f64>) -> Self {
         Self { values }
     }
 

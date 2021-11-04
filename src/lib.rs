@@ -1,9 +1,16 @@
 #![doc = include_str!("../README.md")]
 
-pub mod classifier;
-pub mod learner;
-pub mod results;
+mod fixedclassifier;
+mod fixedlearner;
+mod results;
+mod streamclassifier;
+mod streamlearner;
 
-pub use self::classifier::Classifier;
-pub use self::learner::Learner;
-pub use self::results::Results;
+mod likelihoods;
+mod posteriors;
+
+pub use fixedclassifier::FixedClassifier;
+pub use fixedlearner::FixedLearner;
+pub use results::Results;
+pub use streamclassifier::StreamClassifier;
+pub use streamlearner::StreamLearner;

@@ -1,4 +1,5 @@
-use crate::classifier::Classifier;
+use crate::fixedclassifier::FixedClassifier;
+use crate::likelihoods::likelihoods;
 use std::collections::HashMap;
 use std::fmt::Debug;
 use std::hash::Hash;
@@ -6,7 +7,7 @@ use std::iter::Iterator;
 use std::prelude::rust_2021::TryInto;
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Learner<D, H, const DS: usize>
+pub struct FixedLearner<D, H, const DS: usize>
 where
     D: Copy + Debug + Eq + Hash,
     H: Copy + Debug + Eq + Hash,
@@ -17,10 +18,10 @@ where
 }
 
 impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> Default
-    for Learner<D, H, DS>
+    for FixedLearner<D, H, DS>
 {
     fn default() -> Self {
-        Learner {
+        FixedLearner {
             count_hypotheses: HashMap::default(),
             count_joint: [(); DS].map(|_| HashMap::<(D, H), f64>::default()),
             count_total: 0.0,
@@ -28,7 +29,9 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
     }
 }
 
-impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> Learner<D, H, DS> {
+impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize>
+    FixedLearner<D, H, DS>
+{
     /// Update the Learner with a single instance of training data for a single hypothesis.
     ///
     /// # Arguments
@@ -81,9 +84,9 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
     ///
     /// # Return Value
     ///
-    /// * `Classififer` type
+    /// * `Classifier` type
     ///
-    pub fn make_classifier(&mut self) -> Classifier<D, H, DS> {
+    pub fn make_classifier(&mut self) -> FixedClassifier<D, H, DS> {
         let log_priors: HashMap<H, f64> = self
             .count_hypotheses
             .iter()
@@ -100,53 +103,11 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
             // combination of data values in the array by multiplying together the probabilities at
             // each individual position.
             .iter()
-            .map(|dhc| {
-                // Determine p(d|h) given count of |(d,h)| and count of |h|:
-                //
-                //      p(d|h) = |(d,h)| / |h|
-                //
-                // This probability is conditional on h, and log2 of this value is precomputed and
-                // stored for later use by the Classifier.
-                //
-                // To reduce storage, only store non-zero values log2(p(d|h)) that are seen in the
-                // training data.
-                // Multiplication by zero values should also be avoided, as this will always result
-                // in a final estimate of zero.
-                // For this reason, the Classifier will assume that missing values of p(d|h) have
-                // some small but non-zero estimate of the probability.
-                //
-                // To speed up classification, the mapping:
-                //
-                //      h -> p(d|h)
-                //
-                // is stored in another mapping that uses d as the key:
-                //
-                //      d -> h -> p(d|h)
-                //
-                // This requires only O(|i|) lookups, where |i| is the number of positions in the
-                // input array.
-                dhc.iter()
-                    .fold(
-                        HashMap::default(),
-                        |mut acc: HashMap<D, HashMap<H, f64>>, ((d, h), c)| {
-                            acc.entry(*d)
-                                .or_insert_with(HashMap::default)
-                                .insert(*h, (*c / self.count_hypotheses.get(h).unwrap()).log2());
-                            acc
-                        },
-                    )
-                    // Reduce storage again by converting the HashMap to a more compact Vec.
-                    .iter()
-                    .map(|(d, hp)| {
-                        let v = hp.iter().map(|x| (*x.0, *x.1)).collect();
-                        (*d, v)
-                    })
-                    .collect()
-            })
+            .map(|dhc| likelihoods(&self.count_hypotheses, dhc))
             .collect::<Vec<HashMap<D, Vec<(H, f64)>>>>()
             .try_into()
             .unwrap();
 
-        Classifier::new(log_priors, log_likelihoods)
+        FixedClassifier::new(log_priors, log_likelihoods)
     }
 }

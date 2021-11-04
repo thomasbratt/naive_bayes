@@ -22,10 +22,10 @@ Classify single characters as belonging to 1 of 3 categories.
 
 ```rust
     use assert_approx_eq::assert_approx_eq;
-    use naive_bayes::Classifier;
-    use naive_bayes::Learner;
+    use naive_bayes::FixedClassifier;
+    use naive_bayes::FixedLearner;
 
-    let classifier = Learner::default()
+    let classifier = FixedLearner::default()
         .update_batch(&mut [['a'], ['b'], ['c'], ['a'], ['a']].iter(), "01")
         .update_batch(&mut [['b'], ['b'], ['c'], ['b'], ['a']].iter(), "02")
         .update_batch(&mut [['b'], ['c'], ['c'], ['b'], ['c']].iter(), "03")
@@ -214,15 +214,13 @@ Combining this, the digits of precision for a floating point number is:
 TODO
 -------
 
-* review implementation
-
+* support stream data (where size of input is unknown)
 * test with larger data volumes
+* tighten up access modifiers / scopes
 * document core algorithm, in google docs
-
-* determine better value for LOG2_PLACEHOLDER_PROBABILITY
 * refactor into sparse matrix format
 * refactor into normal versus log probability operations
-* support stream data (where size of input is unknown)
+* determine better value for LOG2_PLACEHOLDER_PROBABILITY
 
 # References
 
