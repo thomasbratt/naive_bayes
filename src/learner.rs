@@ -97,19 +97,19 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
             // The 'naive' assumption of 'naive bayes' assumes that the probability at each position
             // is independent of the other positions.
             // Under this assumption, the classifier can estimate the probability of a specific
-            // combination of data values at each array position by multiplying together the
-            // probabilities at each individual position.
+            // combination of data values in the array by multiplying together the probabilities at
+            // each individual position.
             .iter()
             .map(|dhc| {
                 // Determine p(d|h) given count of |(d,h)| and count of |h|:
                 //
                 //      p(d|h) = |(d,h)| / |h|
                 //
-                // This probability is conditional on h, and log2 of this value is stored
-                // precomputed for later use by the Classifier.
+                // This probability is conditional on h, and log2 of this value is precomputed and
+                // stored for later use by the Classifier.
                 //
-                // To reduce storage, only store values log2(p(d|h)) that occur in the training
-                // data. Zero values can be inferred later on, rather than stored.
+                // To reduce storage, only store non-zero values log2(p(d|h)) that are seen in the
+                // training data.
                 // Multiplication by zero values should also be avoided, as this will always result
                 // in a final estimate of zero.
                 // For this reason, the Classifier will assume that missing values of p(d|h) have
@@ -135,7 +135,7 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash, const DS: usize> 
                             acc
                         },
                     )
-                    // To reduce storage again, convert the hashmap to a more compact Vec<>.
+                    // Reduce storage again by converting the HashMap to a more compact Vec.
                     .iter()
                     .map(|(d, hp)| {
                         let v = hp.iter().map(|x| (*x.0, *x.1)).collect();

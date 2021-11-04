@@ -13,10 +13,11 @@ where
     log_likelihoods: [HashMap<D, Vec<(H, f64)>>; DS],
 }
 
-const LOG2_MANTISSA_F64: f64 = -53.0;
-const LOG2_PLACEHOLDER_PROBABILITY: f64 = -53.0;
+const LOG2_MANTISSA_F64: f64 = -(f64::MANTISSA_DIGITS as f64);
+const LOG2_PLACEHOLDER_PROBABILITY: f64 = -(f64::MANTISSA_DIGITS as f64);
 
 impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H, DS> {
+
     /// Create a new Classifier.
     ///
     /// # Arguments
@@ -63,7 +64,11 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
             }
         }
 
-        // Resolution threshold for the number of hypotheses.
+        // Discard any values that would result in a sum that would underflow a double precision
+        // floating point representation when exponentiated.
+        //
+        // As there are |H| log probabilities added together, each one must be greater than the
+        // minimum representable value divided by |H| to guarantee that the sum does not underflow.
         let threshold = LOG2_MANTISSA_F64 - (self.log_priors.len() as f64).log2();
 
         // Max log probability.
@@ -75,7 +80,6 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash, const DS: usize> Classifier<D, H,
             .unwrap_or(0.0);
 
         // Multiply each accumulated likelihood of h by the prior of h.
-
         let relative_probabilities: HashMap<H, f64> = if accumulated_log_likelihoods.is_empty() {
             HashMap::default()
         } else {

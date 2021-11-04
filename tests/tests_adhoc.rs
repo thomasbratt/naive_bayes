@@ -25,8 +25,10 @@ mod tests {
             .update(&['a'], "01")
             .update(&['b'], "01")
             .update(&['c'], "01")
+
             .update(&['b'], "02")
             .update(&['b'], "02")
+
             .update(&['b'], "03")
             .update(&['c'], "03")
             .update(&['c'], "03");
