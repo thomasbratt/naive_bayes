@@ -214,9 +214,8 @@ Combining this, the digits of precision for a floating point number is:
 TODO
 -------
 
-* support stream data (where size of input is unknown)
 * test with larger data volumes
-* tighten up access modifiers / scopes
+* document stream data (where size of input is unknown)
 * document core algorithm, in google docs
 * refactor into sparse matrix format
 * refactor into normal versus log probability operations

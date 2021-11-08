@@ -42,7 +42,7 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> StreamClassifier<D, H> {
     ///
     /// * `Results` type
     ///
-    pub fn classify(&self, stream: &mut dyn Iterator<Item = &D>) -> Results<H> {
+    pub fn classify(&self, stream: &mut dyn Iterator<Item = D>) -> Results<H> {
         const LOG2_PLACEHOLDER_PROBABILITY: f64 = -(f64::MANTISSA_DIGITS as f64);
 
         // Accumulate product of likelihoods, grouped by hypothesis.
@@ -51,7 +51,7 @@ impl<D: Copy + Eq + Hash, H: Copy + Eq + Hash> StreamClassifier<D, H> {
         let all: HashSet<&H> = self.log_priors.keys().collect();
         for d in stream {
             let mut missing = all.clone();
-            let found = self.log_likelihoods.get(d).unwrap_or(&placeholder);
+            let found = self.log_likelihoods.get(&d).unwrap_or(&placeholder);
             for (h, p) in found {
                 *log_likelihoods.entry(*h).or_insert(0.0) += p;
                 missing.remove(h);

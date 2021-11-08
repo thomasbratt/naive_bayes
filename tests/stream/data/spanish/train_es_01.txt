@@ -1,0 +1,88 @@
+Alufis35.uv.es: Servidor de asociaciones y alumnos
+Portada del sitio
+Mapa del sitio
+Correo
+Jabber
+Bsqueda
+Espacio privado
+Secciones
+Personales
+Ibn Jos Garca
+Laura Primo
+Pablo Iranzo
+Servidor
+Los artculos ms populares
+OCS Inventory Package deployment
+Gestor de Volmenes Lgicos (LVM)
+Qu son las news?
+SSH, stunnel and a proxy: double stunnel bypass
+OCS Deployment Tips and tricks
+Portada del sitio / Personales / Pablo Iranzo
+Qu son las news?
+Sbado 3 de abril de 2004
+Enviado por Pablo Iranzo Gmez
+
+ltima actualizacin: Sbado 10 de marzo de 2007
+Este artculo es una traduccin de un documento en ingls de EARN de hace bastantes aos, en los que se explicaban muchos de los servicios de la antigua Internet, hoy en da desaparecidos.
+
+Este artculo fue publicado en el servidor de news de la Universidad de Valencia
+
+Qu es USENET?
+Netnews o Usenet como se le conoce de forma comn es un sistema de intercambio de mensajes que intercambia mensajes electrnicamente por todo el mundo de forma estndar. Los mensajes intercambiados en USENET estn organizados por temtica en categoras llamadas grupos de news (o foros). Usenet, es por lo tanto una gran coleccin de mensajes transferidos de una mquina a otra. Los mensajes que pueden contener tanto texto plano como datos binarios codificados. Los mensajes tambin contienen cabeceras que definen de quien proviene el mensaje, cuando fue enviado, desde dnde, por donde ha pasado y otras informaciones administrativas.
+
+Las principales categoras de los grupos de noticias que son distribuidas por todo el mundo son: alt, comp, misc, news, rec, sci, soc y talk. Existen muchas otras categoras que pueden ser tpicas (bionet, biz, vmsnet) y que usualmente tambin estn distribuidas mundialment o geogrficamente e incluso de organizaciones (p.e. ieee) o comerciales (p.e. clari).
+
+Las ltimas categoras se distribuyen normalmente slo en su zona de inters. Los mensajes de muchas listas de correo de Bitnet se distribuyen tambin en Usenet bajo la cateogra principal bit.
+
+Las categoras principales estn divididas en ms de 1200 grupos de noticias sobre diferentes materias que abarcan desde educacin para los disminudos hasta Star Trek y de ciencia medioambiental hasta poltica en la antigua Unin Sovitica. La calidad en los grupos de discusin no est garantizada como alta. Algunos grupos tienen un moderador que controla los mensajes para el grupo antes de que se destribuyan y decide cuales son apropiados para ser distribuidos.
+
+Usenet se desarroll originariamente para los sistemas UNIX en 1979. En un ao, 50 servidores UNIX participaban. Actualmente, hay miles de servidores ejecutando diversos sistemas operativos en gran variedad de plataformas de hardware comunicndose mediante USENET alrededor de la Tierra.
+
+Quin puede utilizar USENET?
+Los grupos de USENET pueden ser leidos en multitud de lugares alrededor del mundo. Como aadido, existen lugares que permiten acceso telefnico pblico para que la gente que no est en un servidor USENET puede acceder tambin a los grupos. Si no sabe si su servidor tiene acceso a USENET compruebe con el equipo de soporte informtico local.
+
+Los protocolos y el software para la distribucin de news estn disponibles en diversas redes como Internet, UUCP, EARN/Bitnet y Fidonet.
+
+Si slo dispone de acceso por correo electrnico, no puede acceder a USENET. De todos modos, muchos grupos de noticias estn conectados a listas de correo a las que puede unirse. Para obtener un listado de estos grupos de noticias y sus listas de correo asociadas, mande un email a LISTSERV@AMERICAN.EDU con la lnea GET NETGATE GATELIST. Muchos de los documentos que aparecen peridicamente en los grupos de noticias estn disponibles mediante e-mail desde mail-server@rtfm.mit.edu. Para obtener ayuda, mande un mensaje con el asunto HELP.
+
+Cmo acceder a las news?
+Si su proveedor le proporciona acceso a las news, slo neesita utilizar uno de los numerosos paquetes de software disponibles para leer news (al menos uno est disponible probablemente en su ordenador). Estos paquetes o bien acceden a un servidor local o utilizan el Protcolo para la Red de Transferencia de Noticias (NNTP) para acceder a otros servidores en otros equipos de su red.
+
+En EARN, se ha desarrollado una red distribucin de Netnews, proporcionando acceso eficiente a Usenet a la vez que se minimza la carga de la red de los pases participantes. Si no dispone de acceso a internet y desea tener acceso, contacte a su administrador de red. Debera leer tambin el artculo Cmo formar parte de USENET que se publica peridicamente en el grupo news.answers.
+
+Est tambin disponible mediante FTP annimo desde rtfm.mit.edu como /pub/usenet/news.answers/site-setup o por email a: mail-server@rtfm.mit.edu con la lnea: send usetnet/news.answers/site-setup-
+
+Utilizando USENET
+Existen muchos paquetes disponibles para acceder y distribuir Usenet en multitud de sistemas operativos (Unix, VMS, VM/CMS, MVS, Macintosh, MS-DOS y OS/2) y entornos (Emacs, X-Window System, MS-Windows). Consulte la lista de lectores de news disponibles en el apndice A. Tenga presente que el nmero de paquetes de software para acceder a las news, sobre todo en los PCs est aumentando. Como aadido, adems de los paquetes especficamente diseados para ser lectores de news, muchos otros programas de comunicacin, especialmente lectores de correo, proporcionan la posibilidad de acceder a usenet como extra a su funcin principal.
+
+Muchos, sino todos, los lectores de news proporcionan las siguientes utilidades bsicas:
+
+ Subscribirse a gruops de noticias: Esto significa que su software lector de news, har inmediatamente accesibles dichos grupos para que pueda escoger leer los mensajes de su interee de forma rpida y sencilla.
+
+ Cancelar la subscripcin: Quitar grupos de su lista de acceso fcil.
+
+ Leer los mensajes: Su clienet de news le mostrar los mensajes y mantendr un control sobre los leidos y los no leidos.
+
+ Hilos de discusin (Thread): Puede seguir grupos de discusiones que tratan sobre un mismo tema de forma sencilla.
+
+ Mandar mensajes: Puede participar en las discusiones de grupo; su cliente de news sabe dnde mandar los mensajes.
+
+ Responder a un mensaje: Puede enviar una respuesta al grupo de noticias (generalmente llamado FOLLOW-UP) o al autor del mensaje (generalmente llamado REPLY).
+
+Conociendo ms acerca de USENET
+Los programas de news se comunican entre s utilizando protocolos estndar, algunos de los cuales se describen mediante las Internet Request For Comments (RFC). Generalmente las RFC se envan a la red y se obtienen desde archivos.
+
+Las RFCs actuales incluyen las siguientes:
+
+ RFC 977: Especifica NNTP
+
+ RFC 1036: Especifica el formato de los mensajes USENET
+
+Algunos grupos estn orientados a los nuevos usuarios y al uso de USENET: news.announce.newusers, news.answers y news.newsusers.questions.
+
+Muchos de los artculos que aparecen peridicamente estn disponibles desde rtfm.mit.edu mediante ftp annimo o mediante mail a mail-server@rtfm.mit.edu
+
+   Comentar este artculo  
+
+  | Crditos | Esqueleto Mollio para SPIP
+Formato de salida

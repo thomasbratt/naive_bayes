@@ -34,10 +34,10 @@ impl<D: Copy + Debug + Eq + Hash, H: Copy + Debug + Eq + Hash> StreamLearner<D, 
     /// * `stream` - a stream of training data for a single hypothesis.
     /// * `hypothesis` - the target hypothesis/label/category/classification for the data.
     ///
-    pub fn update(&mut self, stream: &mut dyn Iterator<Item = &D>, hypothesis: H) -> &mut Self {
+    pub fn update(&mut self, stream: &mut dyn Iterator<Item = D>, hypothesis: H) -> &mut Self {
         let mut count = 0.0;
         for d in stream {
-            *self.count_joint.entry((*d, hypothesis)).or_insert(0.0) += 1.0;
+            *self.count_joint.entry((d, hypothesis)).or_insert(0.0) += 1.0;
             // Retrieving the length can be expensive, for example when the data is being streamed.
             // This counter is cheap to maintain and can be processed without additional latency.
             count += 1.0;

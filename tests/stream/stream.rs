@@ -32,7 +32,7 @@ fn classifies_test_case_03() {
     assert_approx_eq!(actual.best().unwrap().1, 0.6, 0.1);
 }
 
-fn learn() -> StreamClassifier<char, &'static str> {
+fn learn() -> StreamClassifier<&'static char, &'static str> {
     StreamLearner::default()
         .update(&mut ['a', 'b', 'c', 'a', 'a'].iter(), "01")
         .update(&mut ['b', 'b', 'c', 'b', 'a'].iter(), "02")

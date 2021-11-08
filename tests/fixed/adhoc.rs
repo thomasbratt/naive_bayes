@@ -1,11 +1,11 @@
-use naive_bayes::StreamLearner;
+use naive_bayes::FixedLearner;
 
 #[test]
 fn adhoc() {
-    let mut learner: StreamLearner<char, &'static str> = learn();
+    let mut learner: FixedLearner<char, &'static str, 1> = learn();
     let classifier = learner.make_classifier();
 
-    let actual = classifier.classify(&mut ['b'].iter());
+    let actual = classifier.classify(&['b']);
 
     println!("learner   : {:?}", learner);
     println!("classifier: {:?}", classifier);
@@ -14,18 +14,23 @@ fn adhoc() {
     // assert_eq!(actual.best().unwrap().0, "01");
 }
 
-fn learn() -> StreamLearner<char, &'static str> {
-    let mut learner = StreamLearner::default();
+fn learn() -> FixedLearner<char, &'static str, 1> {
+    let mut learner = FixedLearner::default();
     learner
-        .update(&mut ['a'].iter(), "01")
-        .update(&mut ['a'].iter(), "01")
-        .update(&mut ['a'].iter(), "01")
-        .update(&mut ['b'].iter(), "01")
-        .update(&mut ['c'].iter(), "01")
-        .update(&mut ['b'].iter(), "02")
-        .update(&mut ['b'].iter(), "02")
-        .update(&mut ['b'].iter(), "03")
-        .update(&mut ['c'].iter(), "03")
-        .update(&mut ['c'].iter(), "03");
+        .update(&['a'], "01")
+        .update(&['b'], "01")
+        .update(&['c'], "01")
+        .update(&['a'], "01")
+        .update(&['a'], "01")
+        .update(&['b'], "02")
+        .update(&['b'], "02")
+        .update(&['c'], "02")
+        .update(&['b'], "02")
+        .update(&['a'], "02")
+        .update(&['b'], "03")
+        .update(&['c'], "03")
+        .update(&['c'], "03")
+        .update(&['b'], "03")
+        .update(&['c'], "03");
     learner
 }
