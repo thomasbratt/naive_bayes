@@ -6,9 +6,7 @@ use naive_bayes::StreamLearner;
 fn classifies_english_training_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/english/train_en_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/english/train_en_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "english");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -18,9 +16,7 @@ fn classifies_english_training_data_01() {
 fn classifies_english_training_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/english/train_en_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/english/train_en_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "english");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -30,9 +26,7 @@ fn classifies_english_training_data_02() {
 fn classifies_english_test_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/english/test_en_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/english/test_en_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "english");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -42,9 +36,7 @@ fn classifies_english_test_data_01() {
 fn classifies_english_test_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/english/test_en_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/english/test_en_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "english");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -54,9 +46,7 @@ fn classifies_english_test_data_02() {
 fn classifies_polish_training_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/polish/train_pl_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/polish/train_pl_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "polish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -66,9 +56,7 @@ fn classifies_polish_training_data_01() {
 fn classifies_polish_training_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/polish/train_pl_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/polish/train_pl_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "polish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -78,9 +66,7 @@ fn classifies_polish_training_data_02() {
 fn classifies_polish_test_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/polish/test_pl_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/polish/test_pl_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "polish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -90,9 +76,7 @@ fn classifies_polish_test_data_01() {
 fn classifies_polish_test_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/polish/test_pl_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/polish/test_pl_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "polish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -102,9 +86,7 @@ fn classifies_polish_test_data_02() {
 fn classifies_spanish_training_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/spanish/train_es_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/spanish/train_es_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "spanish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -114,9 +96,7 @@ fn classifies_spanish_training_data_01() {
 fn classifies_spanish_training_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/spanish/train_es_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/spanish/train_es_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "spanish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -126,9 +106,7 @@ fn classifies_spanish_training_data_02() {
 fn classifies_spanish_test_data_01() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/spanish/test_es_01.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/spanish/test_es_01.txt")));
 
     assert_eq!(actual.best().unwrap().0, "spanish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -138,9 +116,7 @@ fn classifies_spanish_test_data_01() {
 fn classifies_spanish_test_data_02() {
     let classifier = learn();
 
-    let actual = classifier.classify(&mut to_ascii(include_str!(
-        "data/spanish/test_es_02.txt"
-    )));
+    let actual = classifier.classify(&mut to_ascii(include_str!("data/spanish/test_es_02.txt")));
 
     assert_eq!(actual.best().unwrap().0, "spanish");
     assert_approx_eq!(actual.best().unwrap().1, 1.0, 0.1);
@@ -178,5 +154,8 @@ fn learn() -> StreamClassifier<char, &'static str> {
 }
 
 fn to_ascii(original: &'static str) -> impl Iterator<Item = char> {
-    original.chars().into_iter().filter(|x| x.is_ascii_alphabetic())
+    original
+        .chars()
+        .into_iter()
+        .filter(|x| x.is_ascii_alphabetic())
 }

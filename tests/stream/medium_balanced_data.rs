@@ -101,21 +101,15 @@ const TEST_ES_01: &'static str = "Artículo 1
 fn learn() -> StreamClassifier<char, &'static str> {
     let mut learner = StreamLearner::<char, &'static str>::default();
     learner
-        .update(
-            &mut to_ascii(TRAIN_EN_01),
-            "english",
-        )
-        .update(
-            &mut to_ascii(TRAIN_PL_01),
-            "polish",
-        )
-        .update(
-            &mut to_ascii(TRAIN_ES_01),
-            "spanish",
-        );
+        .update(&mut to_ascii(TRAIN_EN_01), "english")
+        .update(&mut to_ascii(TRAIN_PL_01), "polish")
+        .update(&mut to_ascii(TRAIN_ES_01), "spanish");
     learner.make_classifier()
 }
 
 fn to_ascii(original: &'static str) -> impl Iterator<Item = char> {
-    original.chars().into_iter().filter(|x| x.is_ascii_alphabetic())
+    original
+        .chars()
+        .into_iter()
+        .filter(|x| x.is_ascii_alphabetic())
 }
