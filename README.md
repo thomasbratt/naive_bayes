@@ -245,9 +245,5 @@ MIT permissive license. See LICENSE.txt for full license details.
 Source Code Repository
 ----------------------
 
-<<<<<<< HEAD
-https://github.com/thomasbratt/naive_bayes
-=======
 <https://github.com/thomasbratt/naive_bayes>
 
->>>>>>> 5778cc2 (Improve documentation)
