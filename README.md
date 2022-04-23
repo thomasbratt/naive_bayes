@@ -2,6 +2,8 @@
 
 A Naive Bayes machine learning classifier.
 
+[![CircleCI](https://circleci.com/gh/thomasbratt/naive_bayes/tree/main.svg?style=svg)](https://circleci.com/gh/thomasbratt/naive_bayes/tree/main)
+
 ## Features
 
 * Developed as an investigation into capabilities and implementation characteristics
