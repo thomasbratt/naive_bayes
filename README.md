@@ -242,7 +242,7 @@ There are many alternatives for Rust available through cargo: <https://crates.io
 License
 -------
 
-MIT permissive license. See LICENSE.txt for full license details.
+MIT permissive license. See LICENSE for full license details.
 
 Source Code Repository
 ----------------------
